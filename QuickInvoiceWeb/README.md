@@ -15,15 +15,16 @@ An installable, mobile-first web app for creating quick invoices for customers. 
 
 ## Running it
 
-No build step, no dependencies. Any static file server works:
+No build step, no dependencies. Use the included server:
 
 ```bash
 cd QuickInvoiceWeb
-python3 -m http.server 8080
-# open http://localhost:8080
+python3 server.py            # http://127.0.0.1:8000
+python3 server.py --open     # also opens it in your default browser
+python3 server.py --port 8080 --host 0.0.0.0   # reachable from other devices on your network
 ```
 
-Or deploy the folder as-is to any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3, etc.) — it's plain HTML/CSS/JS.
+`server.py` is a small stdlib-only wrapper around Python's built-in HTTP server — it just makes sure every file is served with the right `Content-Type` (including UTF-8, so the `×` in line-item quantities doesn't get mangled) and that `index.html`/`sw.js` aren't cached while you're developing. Any other static file server works too (`python3 -m http.server`, `npx serve`, etc.), or deploy the folder as-is to any static host (GitHub Pages, Netlify, Vercel, Cloudflare Pages, S3, etc.) — it's plain HTML/CSS/JS.
 
 ### Installing on iPhone
 
@@ -41,6 +42,7 @@ QuickInvoiceWeb/
   manifest.json       # PWA manifest
   sw.js               # offline-caching service worker
   icons/               # app icons (192px, 512px)
+  server.py            # optional local static server (stdlib only)
 ```
 
 `app.js` is plain vanilla JavaScript (no framework, no build tooling) organized into:
